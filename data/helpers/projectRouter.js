@@ -1,10 +1,10 @@
 const express = require('express')
 const router = express.Router();
-const db = require('./data/helpers/projectModel')
+const dbs = require('./projectModel');
 router.use(express.json())
 
 router.get('/', (req, res) =>{
-  db.get()
+  dbs.get()
     .then( project => {
       res.status(200).json(project)
     })
