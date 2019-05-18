@@ -5,8 +5,8 @@ router.use(express.json());
 
 router.get('/', (req, res) =>{
   dbaction.get()
-    .then( project => {
-      res.status(200).json(project)
+    .then( actions => {
+      res.status(200).json(actions)
     })
     .catch( error => {
       res.status(500).json({error:{message: "Couldn't get data"}})
