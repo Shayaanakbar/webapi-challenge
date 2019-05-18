@@ -9,9 +9,20 @@ router.get('/', (req, res) =>{
       res.status(200).json(project)
     })
     .catch( error => {
-      res.status(500).json({error:{message: " something"}})
+      res.status(500).json({error:{message: "Error"}});
     })
-})
+});
+
+router.post('/', (req, res) => {
+  const newRoute = req.body
+  dbs.insert(newRoute)
+    .then( action => {
+      res.status(200).json(action)
+    }).catch(error => {
+      res.status(500).json({error:{message: "Error"}});
+  })
+});
+
 
 
 
