@@ -13,6 +13,17 @@ router.get('/', (req, res) =>{
     })
 });
 
+router.get("/:id", (req, res) =>{
+  const id = req.params.id
+  dbaction.get(id)
+    .then( project => {
+      res.status(200).json(project)
+    })
+    .catch( err => {
+      res.status(500).json({ error: err, message:"Could not update data"})
+    })
+})
+
 router.post('/', (req, res) => {
   const newAction = req.body
   dbaction.insert(newAction)
@@ -57,6 +68,5 @@ router.delete('/:id', (req, res)=>{
       res.status(500).json({ error: err, message:"Could not update data"})
     })
 })
-
 
 module.exports = router;
