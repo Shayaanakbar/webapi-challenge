@@ -3,25 +3,29 @@ const router = express.Router();
 const dbaction = require('./actionModel');
 router.use(express.json());
 
-router.get('/', (req, res) =>{
-  dbaction.get()
-    .then( actions => {
-      res.status(200).json(actions)
-    })
-    .catch( error => {
-      res.status(500).json({error:{message: "Couldn't get data"}})
-    })
+router.get("/", async (req, res) => {
+  try {
+    const allActions = await dbaction.get();
+    res.json({ message: allActions });
+  } catch (err) {
+    res.status(500).json({ message: "Error: server conflict" });
+  }
 });
 
-router.post('/', (req, res) => {
-  const newAction = req.body
-  dbaction.insert(newAction)
-    .then( action =>{
-      res.status(200).json(action)
-    }).catch( error => {
-    res.status(500).json({error:{message: "Could't get data"}})
-  })
-})
+router.post("/", async (req, res) => {
+  try {
+    const validateProject = await dbaction.get(req.body.project_id);
+
+    if (validateProject) {
+      const newAction = await dbaction.insert(req.body);
+      res.json({ message: newAction });
+    } else {
+      res.status(404).json({ message: "Invalid project id" });
+    }
+  } catch (err) {
+    res.status(500).json({ message: "Error: server conflict" });
+  }
+});
 
 
 router.put('/:id', (req, res) => {

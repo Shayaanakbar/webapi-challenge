@@ -9,8 +9,8 @@ router.get('/', (req, res) =>{
     .then( project => {
       res.status(200).json(project)
     })
-    .catch( error => {
-      res.status(500).json({error:{message: "Could not get data"}})
+    .catch( err => {
+      res.status(500).json({ error: err, message:"Could not update data"})
     })
 })
 
@@ -21,18 +21,20 @@ router.get("/:id", (req, res) =>{
     .then( projectactions => {
       res.status(200).json(projectactions)
     })
-    .catch( error => {
-      res.status(500).json({error:{message: " Could not get data"}})
+    .catch( err => {
+      res.status(500).json({ error: err, message:"Could not update data"})
     })
 })
 
 router.post('/', (req, res) => {
   const newProject = req.body
+  console.log(newProject)
   dbproject.insert(newProject)
     .then( action =>{
       res.status(200).json(action)
-    }).catch( error => {
-    res.status(500).json({error:{message: " Incorrect"}})
+    })
+    .catch( err => {
+      res.status(500).json({ error: err, message:"Could not update data"})
   })
 
 
@@ -68,8 +70,8 @@ router.delete('/:id', (req, res)=>{
         res.status(404).json({ error: err, mesage : "User does not exist"})
       }
     })
-    .catch(error =>{
-      res.status(500).json({  message: "Could not remove user"})
+    .catch( err => {
+      res.status(500).json({ error: err, message:"Could not update data"})
     })
 })
 
